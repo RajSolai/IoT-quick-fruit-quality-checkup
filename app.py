@@ -44,3 +44,5 @@ def get_sensor_data():
 @app.route("/")
 def render_main():
     return render_template('main.html')
+
+app.run(host='0.0.0.0', port= 5000)
