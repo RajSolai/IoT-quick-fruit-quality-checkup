@@ -36,6 +36,7 @@ def initialize():
 @app.route("/sensor", methods=['POST'])
 def get_sensor_data():
     global sensor_data
+    print("Got Data From ESP8266")
     sensor_data = int(request.get_json()['data'])
     return str(sensor_data)
 
