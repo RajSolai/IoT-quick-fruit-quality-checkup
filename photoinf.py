@@ -1,6 +1,6 @@
 import subprocess
-from keras.models import load_model
-from PIL import Image, ImageOps
+import tflite_runtime.interpreter as tflite
+import cv2
 import numpy as np
 
 
@@ -10,28 +10,20 @@ def take_photo():
 
 def make_prediction():
     # Load the model
-    model = load_model('keras_model.h5')
-
-    # Create the array of the right shape to feed into the keras model
-    # The 'length' or number of images you can put into the array is
-    # determined by the first position in the shape tuple, in this case 1.
-    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-    # Replace this with the path to your image
-    image = Image.open("/home/pi/image.png")
-    # resize the image to a 224x224 with the same strategy as in TM2:
-    # resizing the image to be at least 224x224 and then cropping from the center
-    size = (224, 224)
-    image = ImageOps.fit(image, size, Image.ANTIALIAS)
-
-    # turn the image into a numpy array
-    image_array = np.asarray(image)
-    # Normalize the image
-    normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
-    # Load the image into the array
-    data[0] = normalized_image_array
-
+    interpreter = tflite.Interpreter(model_path="model_unquant.tflite")
+    interpreter.allocate_tensors()
+    image_path = '/home/solairaj/apple.png'  # ! Change it
+    img = cv2.imread(image_path)
+    img = cv2.resize(img, (224, 224))
+    input_tensor = np.array(np.expand_dims(img, 0), dtype=np.float32)
+    input_index = interpreter.get_input_details()[0]["index"]
+    interpreter.set_tensor(input_index, input_tensor)
+    interpreter.invoke()
+    output_details = interpreter.get_output_details()
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+    pred = np.squeeze(output_data)
+    print(pred)
     # run the inference
-    prediction = model.predict(data)
-    if (prediction[0] > prediction[1]):
+    if (pred[0] > pred[1]):
         return "good"
     return "bad"

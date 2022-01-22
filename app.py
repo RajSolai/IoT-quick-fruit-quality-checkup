@@ -8,11 +8,6 @@ app = Flask(__name__)
 sensor_data = 0
 
 
-@app.route("/")
-def hello_world():
-    return "Welcome To Fruit quality app\n 1. detect for detection"
-
-
 @app.route("/takepic")
 def capture():
     take_photo()
@@ -45,6 +40,6 @@ def get_sensor_data():
     return str(sensor_data)
 
 
-@app.route("/main")
+@app.route("/")
 def render_main():
     return render_template('main.html')
