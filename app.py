@@ -37,7 +37,7 @@ def initialize():
 def get_sensor_data():
     global sensor_data
     print("Got Data From ESP8266")
-    sensor_data = int(request.get_json()['data'])
+    sensor_data = float(request.get_json()['data'])
     return str(sensor_data)
 
 
@@ -45,4 +45,5 @@ def get_sensor_data():
 def render_main():
     return render_template('main.html')
 
-app.run(host='0.0.0.0', port= 5000)
+
+app.run(host='0.0.0.0', port=5000)

@@ -5,14 +5,14 @@ import numpy as np
 
 
 def take_photo():
-    subprocess.run("fswebcam", "/home/pi/image.png")
+    subprocess.run(["fswebcam", "/home/pi/image.png"])
 
 
 def make_prediction():
     # Load the model
     interpreter = tflite.Interpreter(model_path="model_unquant.tflite")
     interpreter.allocate_tensors()
-    image_path = '/home/solairaj/apple.png'  # ! Change it
+    image_path = '/home/pi/image.png'  # ! Change it
     img = cv2.imread(image_path)
     img = cv2.resize(img, (224, 224))
     input_tensor = np.array(np.expand_dims(img, 0), dtype=np.float32)
