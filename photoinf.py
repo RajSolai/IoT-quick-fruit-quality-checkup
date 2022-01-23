@@ -12,7 +12,7 @@ def make_prediction():
     # Load the model
     interpreter = tflite.Interpreter(model_path="model_unquant.tflite")
     interpreter.allocate_tensors()
-    image_path = '/home/pi/image.png'  # ! Change it
+    image_path = '/home/pi/image.png'
     img = cv2.imread(image_path)
     img = cv2.resize(img, (224, 224))
     input_tensor = np.array(np.expand_dims(img, 0), dtype=np.float32)
