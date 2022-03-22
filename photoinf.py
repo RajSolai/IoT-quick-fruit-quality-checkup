@@ -1,5 +1,6 @@
 import subprocess
 from keras.models import load_model
+from PIL import Image, ImageOps
 import cv2
 import numpy as np
 
@@ -37,6 +38,9 @@ def make_prediction():
 
     # run the inference
     prediction = model.predict(data)
-    if (prediction[0] > prediction[1]):
-        return "good"
+    prediction = prediction[0]
+    # print(prediction[0])
+    if (prediction[0] > 0.5 and prediction[1] > 0.5):
+        if (prediction[0] > prediction[1]):
+            return "good"
     return "bad"
