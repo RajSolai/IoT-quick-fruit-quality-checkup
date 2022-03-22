@@ -40,7 +40,8 @@ def make_prediction():
     prediction = model.predict(data)
     prediction = prediction[0]
     # print(prediction[0])
-    if (prediction[0] > 0.5 and prediction[1] > 0.5):
-        if (prediction[0] > prediction[1]):
-            return "good"
-    return "bad"
+    if (prediction[0] > 0.5 and prediction[1] < 0.5):
+        return "good"
+    if (prediction[1] > 0.5 and prediction[0] < 0.5):
+        return "bad"
+    return "Please Retake Image"
