@@ -3,17 +3,15 @@ import tflite_runtime.interpreter as tflite
 import cv2
 import numpy as np
 
-
-def take_photo():
-    subprocess.run(["fswebcam", "/home/pi/image.png"])
-
+FRAME_SOURCE = "http://raspberrypi.local/live"
 
 def make_prediction():
+    _c = cv2.VideoCapture(FRAME_SOURCE)
     # Load the model
-    interpreter = tflite.Interpreter(model_path="model_unquant.tflite")
+    interpreter = tflite.Interpreter(model_path="model_densenet.tflite")
+    # interpreter = tflite.Interpreter(model_path="model_unquant.tflite")
     interpreter.allocate_tensors()
-    image_path = '/home/pi/image.png'
-    img = cv2.imread(image_path)
+    _,img = _c.read()
     img = cv2.resize(img, (224, 224))
     input_tensor = np.array(np.expand_dims(img, 0), dtype=np.float32)
     input_index = interpreter.get_input_details()[0]["index"]
