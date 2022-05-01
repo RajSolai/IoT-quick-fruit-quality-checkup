@@ -6,13 +6,21 @@ from photoinf import make_prediction, take_photo
 app = Flask(__name__)
 
 sensor_data = 0
+cam = cv2.VideoCapture(0)
 
+def gen_frames():
+    while True:
+      succ, frame = cam.read()
+      if not succ:
+        break
+      else:
+        ret, buff = cv2.imencode('.jpg',frame)
+        frame = buff.tobytes()
+        yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(frame) + b'\r\n')
 
-@app.route("/takepic")
-def capture():
-    take_photo()
-    return "capturing photo"
-
+@app.route('/live')
+def video_feed():
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route("/detectsensor")
 def detect_sensor():
@@ -31,7 +39,6 @@ def initialize():
     return "Done"
 
 # web hook for sensor data
-
 
 @app.route("/sensor", methods=['POST'])
 def get_sensor_data():
