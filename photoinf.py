@@ -12,7 +12,7 @@ def make_prediction():
     if not ret:
         return "Camera Unable to read"
     # Load the model
-    model = load_model('keras_densenet.h5')
+    model = load_model('model_densenet.h5')
 
     # Create the array of the right shape to feed into the keras model
     # The 'length' or number of images you can put into the array is
