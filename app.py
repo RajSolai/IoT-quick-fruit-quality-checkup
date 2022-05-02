@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask import render_template
 from sensorinf import predict_model, train_model
 from photoinf import make_prediction
