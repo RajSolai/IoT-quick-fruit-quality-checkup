@@ -23,7 +23,7 @@ def make_prediction():
     # resize the image to a 224x224 with the same strategy as in TM2:
     # resizing the image to be at least 224x224 and then cropping from the center
     size = (128, 128)
-    image = ImageOps.fit(img, size, Image.ANTIALIAS)
+    image = cv2.resize(img, size)
 
     # turn the image into a numpy array
     image_array = np.asarray(image)
