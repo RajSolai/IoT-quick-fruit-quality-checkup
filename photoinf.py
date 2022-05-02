@@ -11,7 +11,9 @@ def make_prediction():
     interpreter = tflite.Interpreter(model_path="model_densenet.tflite")
     # interpreter = tflite.Interpreter(model_path="model_unquant.tflite")
     interpreter.allocate_tensors()
-    _,img = _c.read()
+    ret,img = _c.read()
+    if not ret:
+        return "Camera Unable to read"
     img = cv2.resize(img, (128, 128))
     input_tensor = np.array(np.expand_dims(img, 0), dtype=np.float32)
     input_index = interpreter.get_input_details()[0]["index"]
