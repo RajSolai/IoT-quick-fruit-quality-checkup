@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask import render_template
 from sensorinf import predict_model, train_model
 from photoinf import make_prediction
+import cv2
 
 app = Flask(__name__)
 
