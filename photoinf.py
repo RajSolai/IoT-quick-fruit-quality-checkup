@@ -6,9 +6,10 @@ import numpy as np
 
 FRAME_SOURCE = "http://raspberrypi.local:5000/live"
 
+
 def make_prediction():
     vid = cv2.VideoCapture(FRAME_SOURCE)
-    ret,img = vid.read()
+    ret, img = vid.read()
     if not ret:
         return "Camera Unable to read"
     # Load the model
@@ -34,3 +35,5 @@ def make_prediction():
 
     # run the inference
     prediction = model.predict(data)
+    print(prediction)
+    return ""
