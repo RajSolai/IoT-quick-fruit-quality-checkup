@@ -3,7 +3,7 @@ import tflite_runtime.interpreter as tflite
 import cv2
 import numpy as np
 
-FRAME_SOURCE = "http://raspberrypi.local/live"
+FRAME_SOURCE = "http://raspberrypi.local:5000/live"
 
 def make_prediction():
     _c = cv2.VideoCapture(FRAME_SOURCE)
