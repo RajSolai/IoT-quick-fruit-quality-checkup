@@ -12,7 +12,7 @@ def make_prediction():
     # interpreter = tflite.Interpreter(model_path="model_unquant.tflite")
     interpreter.allocate_tensors()
     _,img = _c.read()
-    img = cv2.resize(img, (224, 224))
+    img = cv2.resize(img, (128, 128))
     input_tensor = np.array(np.expand_dims(img, 0), dtype=np.float32)
     input_index = interpreter.get_input_details()[0]["index"]
     interpreter.set_tensor(input_index, input_tensor)
@@ -21,7 +21,4 @@ def make_prediction():
     output_data = interpreter.get_tensor(output_details[0]['index'])
     pred = np.squeeze(output_data)
     print(pred)
-    # run the inference
-    if (pred[0] > pred[1]):
-        return "good"
     return "bad"
