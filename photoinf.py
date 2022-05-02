@@ -1,26 +1,36 @@
 import subprocess
-import tflite_runtime.interpreter as tflite
+from PIL import Image, ImageOps
+from keras.models import load_model
 import cv2
 import numpy as np
 
 FRAME_SOURCE = "http://raspberrypi.local:5000/live"
 
 def make_prediction():
-    _c = cv2.VideoCapture(FRAME_SOURCE)
-    # Load the model
-    interpreter = tflite.Interpreter(model_path="model_densenet.tflite")
-    # interpreter = tflite.Interpreter(model_path="model_unquant.tflite")
-    interpreter.allocate_tensors()
-    ret,img = _c.read()
+    vid = cv2.VideoCapture(FRAME_SOURCE)
+    ret,img = vid.read()
     if not ret:
         return "Camera Unable to read"
-    img = cv2.resize(img, (128, 128))
-    input_tensor = np.array(np.expand_dims(img, 0), dtype=np.float32)
-    input_index = interpreter.get_input_details()[0]["index"]
-    interpreter.set_tensor(input_index, input_tensor)
-    interpreter.invoke()
-    output_details = interpreter.get_output_details()
-    output_data = interpreter.get_tensor(output_details[0]['index'])
-    pred = np.squeeze(output_data)
-    print(pred)
-    return "bad"
+    # Load the model
+    model = load_model('keras_densenet.h5')
+
+    # Create the array of the right shape to feed into the keras model
+    # The 'length' or number of images you can put into the array is
+    # determined by the first position in the shape tuple, in this case 1.
+    data = np.ndarray(shape=(1, 128, 128, 3), dtype=np.float32)
+    # Replace this with the path to your image
+    # image = Image.open("./input.png")
+    # resize the image to a 224x224 with the same strategy as in TM2:
+    # resizing the image to be at least 224x224 and then cropping from the center
+    size = (128, 128)
+    image = ImageOps.fit(img, size, Image.ANTIALIAS)
+
+    # turn the image into a numpy array
+    image_array = np.asarray(image)
+    # Normalize the image
+    normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
+    # Load the image into the array
+    data[0] = normalized_image_array
+
+    # run the inference
+    prediction = model.predict(data)
