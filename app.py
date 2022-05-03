@@ -36,8 +36,8 @@ def detect_sensor():
 
 @app.route("/detect")
 def detect_image():
-    # initialize()
-    # pred_gas = detect_sensor()
+    initialize()
+    pred_gas = detect_sensor()
     pred_array = make_prediction()
     # return "hello"
     return render_template('out.html',
