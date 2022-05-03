@@ -40,8 +40,9 @@ def make_prediction():
 
     # run the inference
     prediction = model.predict(data)
-    out = []
-    out += prediction[0]
-    out.append(np.argmax(prediction))
     print(prediction)
-    return prediction
+    # out = []
+    # out += prediction[0]
+    # out.append(np.argmax(prediction))
+    # print(prediction)
+    return "prediction"
