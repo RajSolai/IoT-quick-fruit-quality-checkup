@@ -39,17 +39,17 @@ def detect_image():
     # initialize()
     # pred_gas = detect_sensor()
     pred_array = make_prediction()
-    return "hello"
-    # return render_template('out.html',
-    #                        rotten_apple=pred_array[1],
-    #                        fresh_banana=pred_array[1],
-    #                        fresh_oranges=pred_array[1],
-    #                        rotton_banana=pred_array[1],
-    #                        fresh_apples=pred_array[1],
-    #                        rotton_oranges=pred_array[1],
-    #                        photo_results=pred_array[1],
-    #                        gas_readings=sensor_data,
-    #                        gas_results=pred_gas)
+    # return "hello"
+    return render_template('out.html',
+                           rotten_apple=pred_array[1],
+                           fresh_banana=pred_array[1],
+                           fresh_oranges=pred_array[1],
+                           rotton_banana=pred_array[1],
+                           fresh_apples=pred_array[1],
+                           rotton_oranges=pred_array[1],
+                           photo_results=pred_array[1],
+                           gas_readings=sensor_data,
+                           gas_results=pred_gas)
 
 
 def initialize():
