@@ -45,6 +45,6 @@ def make_prediction():
     # out += prediction[0]
     # out.append(np.argmax(prediction))
     # print(prediction)
-    prediction[0]=np.append(prediction[0],np.argmax(prediction))
-    print(prediction[0])
+    out=np.append(prediction[0],np.argmax(prediction[0]))
+    print(out)
     return prediction[0]
