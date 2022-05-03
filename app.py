@@ -41,13 +41,13 @@ def detect_image():
     pred_array = make_prediction()
     # return "hello"
     return render_template('out.html',
-                           rotten_apple=pred_array[1],
+                           rotten_apple=pred_array[0],
                            fresh_banana=pred_array[1],
-                           fresh_oranges=pred_array[1],
-                           rotton_banana=pred_array[1],
-                           fresh_apples=pred_array[1],
-                           rotton_oranges=pred_array[1],
-                           photo_results=pred_array[1],
+                           fresh_oranges=pred_array[2],
+                           rotton_banana=pred_array[3],
+                           fresh_apples=pred_array[4],
+                           rotton_oranges=pred_array[5],
+                           photo_results=pred_array[6],
                            gas_readings=sensor_data,
                            gas_results=pred_gas)
 
