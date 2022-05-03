@@ -6,6 +6,11 @@ import numpy as np
 
 FRAME_SOURCE = "http://raspberrypi.local:5000/live"
 
+CLASSES = [
+    'rottenapples', 'freshbanana', 'freshoranges', 'rottenbanana',
+    'freshapples', 'rottenoranges'
+]
+
 
 def make_prediction():
     vid = cv2.VideoCapture(FRAME_SOURCE)
@@ -35,5 +40,8 @@ def make_prediction():
 
     # run the inference
     prediction = model.predict(data)
+    out = []
+    out += prediction[0]
+    out.append(np.argmax(prediction))
     print(prediction)
-    return ""
+    return prediction

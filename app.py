@@ -9,21 +9,26 @@ app = Flask(__name__)
 sensor_data = 0
 cam = cv2.VideoCapture(0)
 
+
 def gen_frames():
     while True:
-      succ, frame = cam.read()
-      if not succ:
-        break
-      else:
-        ret, buff = cv2.imencode('.jpg',frame)
-        frame = buff.tobytes()
-        yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(frame) + b'\r\n')
+        succ, frame = cam.read()
+        if not succ:
+            break
+        else:
+            ret, buff = cv2.imencode('.jpg', frame)
+            frame = buff.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + bytearray(frame) +
+                   b'\r\n')
+
 
 @app.route('/live')
 def video_feed():
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_frames(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route("/detectsensor")
+
 def detect_sensor():
     input_data = [[sensor_data]]
     return predict_model(input_data)
@@ -31,15 +36,28 @@ def detect_sensor():
 
 @app.route("/detect")
 def detect_image():
-    return make_prediction()
+    initialize()
+    pred_gas = detect_sensor()
+    pred_array = make_prediction()
+    return render_template('out.html',
+                           rotten_apple=pred_array[1],
+                           fresh_banana=pred_array[1],
+                           fresh_oranges=pred_array[1],
+                           rotton_banana=pred_array[1],
+                           fresh_apples=pred_array[1],
+                           rotton_oranges=pred_array[1],
+                           photo_results=pred_array[1],
+                           gas_readings=sensor_data,
+                           gas_results=pred_gas)
 
 
-@app.route("/init")
 def initialize():
     train_model()
     return "Done"
 
+
 # web hook for sensor data
+
 
 @app.route("/sensor", methods=['POST'])
 def get_sensor_data():
