@@ -47,7 +47,7 @@ def detect_image():
                            rotton_banana=pred_array[3],
                            fresh_apples=pred_array[4],
                            rotton_oranges=pred_array[5],
-                           photo_results=pred_array[6],
+                           photo_results=pred_array[5],
                            gas_readings=sensor_data,
                            gas_results=pred_gas)
 
