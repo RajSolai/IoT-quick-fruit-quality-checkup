@@ -4,12 +4,6 @@ from sensorinf import predict_model, train_model
 from photoinf import make_prediction
 import cv2
 
-CLASSES = [
-    'rottenapples', 'freshbanana', 'freshoranges', 'rottenbanana',
-    'freshapples', 'rottenoranges'
-]
-
-
 app = Flask(__name__)
 
 sensor_data = 0
@@ -44,16 +38,10 @@ def detect_sensor():
 def detect_image():
     initialize()
     pred_gas = detect_sensor()
-    pred_array = make_prediction()
+    pictureOutput = make_prediction()
     # return "hello"
     return render_template('out.html',
-                           rotten_apple=pred_array[0],
-                           fresh_banana=pred_array[1],
-                           fresh_oranges=pred_array[2],
-                           rotten_banana=pred_array[3],
-                           fresh_apples=pred_array[4],
-                           rotten_oranges=pred_array[5],
-                           photo_results=CLASSES[int(pred_array[6])],
+                           photo_results=pictureOutput,
                            gas_readings=sensor_data,
                            gas_results=pred_gas)
 
