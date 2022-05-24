@@ -5,7 +5,7 @@ from keras.preprocessing import image
 import cv2
 import numpy as np
 
-FRAME_SOURCE = "http://raspberrypi.local:5000/live"
+FRAME_SOURCE = "http://localhost:5000/live"
 
 def make_prediction():
     # save image to show later
@@ -28,8 +28,7 @@ def make_prediction():
     label = np.where(classes[0] > 0.5, 1,0)
 
     print("OUTPUT IS ",label)
-    if label == 0 or label == 0.5:
+    if label == 0:
         return "Fresh Fruit"
     
     return "Rotton Fruit"
-w
